@@ -4,8 +4,21 @@ import { NavigationContainer } from "@react-navigation/native"
 import React from "react"
 import Cart from "./src/screens/Cart"
 import Home from "./src/screens/Home"
+import Store from "./src/screens/Store"
+import { createStackNavigator } from "@react-navigation/stack"
 
 const Tab = createBottomTabNavigator()
+
+const Stack = createStackNavigator()
+
+const HomeStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Store" component={Store} />
+    </Stack.Navigator>
+  )
+}
 
 export default function App() {
   return (
@@ -27,7 +40,8 @@ export default function App() {
           headerShown: false,
         })}
       >
-        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Home" component={HomeStack} />
+
         <Tab.Screen name="Cart" component={Cart} />
       </Tab.Navigator>
     </NavigationContainer>

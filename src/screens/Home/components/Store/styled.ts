@@ -1,7 +1,8 @@
 import styled from "styled-components/native"
 import { Paragraph } from "../../../../components/common/styled"
+import { TouchableOpacity } from "react-native"
 
-export const Container = styled.View`
+export const Container = styled(TouchableOpacity)`
   padding: 10px;
 `
 

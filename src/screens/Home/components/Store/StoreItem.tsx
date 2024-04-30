@@ -8,14 +8,16 @@ import {
   Paragraph,
   Space,
 } from "../../../../components/common/styled"
+import useCart from "../../../../hooks/useCart"
 
 type Props = {
   store: Store
+  onPress: () => void
 }
 
-export const StoreItem: FC<Props> = ({ store }) => {
+export const StoreItem: FC<Props> = ({ store, onPress }) => {
   return (
-    <S.Container>
+    <S.Container onPress={onPress} >
       <S.ImageContainer>
         <Image
           style={{ height: 140, width: 340, borderRadius: 10 }}
