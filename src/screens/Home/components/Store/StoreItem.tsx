@@ -6,6 +6,7 @@ import {
   FlexRow,
   Header,
   Paragraph,
+  Space,
 } from "../../../../components/common/styled"
 
 type Props = {
@@ -17,16 +18,21 @@ export const StoreItem: FC<Props> = ({ store }) => {
     <S.Container>
       <S.ImageContainer>
         <Image
-          style={{ height: 140, width: 340 }}
-          source={require("../../../../../assets/flowers.jpeg")}
+          style={{ height: 140, width: 340, borderRadius: 10 }}
+          source={require(`../../../../../assets/flowers.jpeg`)}
         />
       </S.ImageContainer>
-
-      <Header>{store.name}</Header>
       <FlexRow spaceBetween>
-        <Paragraph>{store.deliveryTime}</Paragraph>
-        <Paragraph>{store.deliveryFee}</Paragraph>
-        <Paragraph>{store.score}</Paragraph>
+        <Header>{store.name}</Header>
+        <S.Rating>
+          <Paragraph>{store.score}</Paragraph>
+        </S.Rating>
+      </FlexRow>
+      <FlexRow>
+        <Space w04 />
+        <S.Detail>{"$" + store.deliveryFee}</S.Detail>
+        <S.Dot />
+        <S.Detail>{store.deliveryTime}</S.Detail>
       </FlexRow>
     </S.Container>
   )
