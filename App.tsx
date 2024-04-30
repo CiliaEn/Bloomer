@@ -1,20 +1,35 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Ionicons } from "@expo/vector-icons"
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { NavigationContainer } from "@react-navigation/native"
+import React from "react"
+import Cart from "./src/screens/Cart"
+import Home from "./src/screens/Home"
+
+const Tab = createBottomTabNavigator()
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+            if (route.name === "Home") {
+              iconName = focused ? "home" : "home-outline"
+            } else if (route.name === "Cart") {
+              iconName = focused ? "cart" : "cart-outline"
+            }
+            return <Ionicons name={iconName} size={size} color={color} />
+          },
+          tabBarActiveTintColor: "rgba(42, 11, 232, 1)",
+          tabBarInactiveTintColor: "gray",
+          headerShown: false,
+        })}
+      >
+        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Cart" component={Cart} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  )
+}
