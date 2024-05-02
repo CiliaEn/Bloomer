@@ -1,6 +1,14 @@
 import { RouteProp } from "@react-navigation/native"
 import { FC } from "react"
+import { ScrollView } from "react-native"
+import {
+  Header,
+  Heading2,
+  ScreenHorizontalPadding,
+  Space,
+} from "../../components/common/styled"
 import { RootStackParamList } from "../../navigation/types"
+import { BouquetItem } from "./components/BouquetItem/BouquetItem"
 import * as S from "./styled"
 
 type StoreScreenRouteProp = RouteProp<RootStackParamList, "Store">
@@ -27,39 +35,27 @@ const Store: FC<Props> = ({ route }) => {
     }
   }
 
-  const getBouquetImageUrl = (bouquetImageUrl: string) => {
-    if (bouquetImageUrl === "fall.jpeg") {
-      return require(`../../../assets/fall.jpeg`)
-    } else if (bouquetImageUrl === "roses.jpeg") {
-      return require(`../../../assets/roses.jpeg`)
-    } else if (bouquetImageUrl === "spring.jpeg") {
-      return require(`../../../assets/spring.jpeg`)
-    } else {
-      return require(`../../../assets/fall.jpeg`)
-    }
-  }
   return (
-    <S.Container>
-       <S.StoreImage source={getStoreImageUrl()} />
+    <ScrollView bounces={false}>
+      <S.StoreImage source={getStoreImageUrl()} />
       <S.HeaderContainer>
-        <S.StoreName>{store.name}</S.StoreName>
+        <Header>{store.name}</Header>
         <S.DeliveryInfo>
           Delivery Fee: ${store.deliveryFee} | Delivery Time:{" "}
           {store.deliveryTime}
         </S.DeliveryInfo>
       </S.HeaderContainer>
-     
-      <S.BouquetContainer>
-        <S.BouquetHeader>Available Bouquets</S.BouquetHeader>
-        {store.bouquets.map((bouquet, index) => (
-          <S.BouquetItem key={index}>
-            <S.BouquetImage source={getBouquetImageUrl(bouquet.imageUrl)} />
-            <S.BouquetName>{bouquet.name}</S.BouquetName>
-            <S.BouquetPrice>${bouquet.price}</S.BouquetPrice>
-          </S.BouquetItem>
-        ))}
-      </S.BouquetContainer>
-    </S.Container>
+      <Space h04 />
+      <S.SectionContainer>
+        <ScreenHorizontalPadding>
+          <Heading2>Available Bouquets</Heading2>
+          <Space h20 />
+          {store.bouquets.map((bouquet, index) => (
+            <BouquetItem bouquet={bouquet} key={index} />
+          ))}
+        </ScreenHorizontalPadding>
+      </S.SectionContainer>
+    </ScrollView>
   )
 }
 

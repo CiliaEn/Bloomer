@@ -4,8 +4,9 @@ import * as S from "./styled"
 import { Image, Text } from "react-native"
 import {
   FlexRow,
-  Header,
+  Heading1,
   Paragraph,
+  ScreenHorizontalPadding,
   Space,
 } from "../../../../components/common/styled"
 import useCart from "../../../../hooks/useCart"
@@ -39,18 +40,20 @@ export const StoreItem: FC<Props> = ({ store, onPress }) => {
           source={getImageUrl()}
         />
       </S.ImageContainer>
-      <FlexRow spaceBetween>
-        <Header>{store.name}</Header>
-        <S.Rating>
-          <Paragraph>{store.score}</Paragraph>
-        </S.Rating>
-      </FlexRow>
-      <FlexRow>
-        <Space w04 />
-        <S.Detail>{"$" + store.deliveryFee}</S.Detail>
-        <S.Dot />
-        <S.Detail>{store.deliveryTime}</S.Detail>
-      </FlexRow>
+      <ScreenHorizontalPadding>
+        <FlexRow spaceBetween>
+          <Heading1>{store.name}</Heading1>
+          <S.Rating>
+            <Paragraph>{store.score}</Paragraph>
+          </S.Rating>
+        </FlexRow>
+        <FlexRow>
+          <Space w04 />
+          <S.Detail>{"$" + store.deliveryFee}</S.Detail>
+          <S.Dot />
+          <S.Detail>{store.deliveryTime}</S.Detail>
+        </FlexRow>
+      </ScreenHorizontalPadding>
     </S.Container>
   )
 }

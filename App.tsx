@@ -40,7 +40,7 @@ export default function App() {
           headerShown: false,
         })}
       >
-        <Tab.Screen name="Home" component={HomeStack} />
+        <Tab.Screen name="Home" component={HomeStack} options={{}}/>
 
         <Tab.Screen name="Cart" component={Cart} />
       </Tab.Navigator>

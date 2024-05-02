@@ -12,8 +12,23 @@ export const Paragraph = styled(CustomText)`
 `
 
 export const Header = styled(CustomText)`
+  font-size: 22px;
+  font-weight: 600;
+`
+
+export const Heading1 = styled(CustomText)`
   font-size: 18px;
   font-weight: 600;
+`
+
+export const Heading2 = styled(CustomText)`
+  font-size: 16px;
+  font-weight: 600;
+`
+
+export const Heading3 = styled(CustomText)`
+  font-size: 14px;
+  font-weight: 400;
 `
 type FlexRowProps = {
   spaceBetween?: boolean

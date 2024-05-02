@@ -4,6 +4,7 @@ import { TouchableOpacity } from "react-native"
 
 export const Container = styled(TouchableOpacity)`
   padding: 10px;
+  background-color: white;
 `
 
 export const ImageContainer = styled.View`

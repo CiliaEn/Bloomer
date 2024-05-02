@@ -5,7 +5,7 @@ import { ScreenHorizontalPadding, Space } from "../../components/common/styled"
 import useStores from "../../hooks/useStores"
 import { RootStackParamList } from "../../navigation/types"
 import { Store } from "../../types"
-import { StoreItem } from "./components/Store/StoreItem"
+import { StoreItem } from "./components/StoreItem/StoreItem"
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">
 
@@ -21,8 +21,8 @@ const Home: FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        <ScreenHorizontalPadding>
+      <ScrollView bounces={false}>
+     
           {stores.map((store) => (
             <StoreItem
               key={store.longitude + store.latitude}
@@ -30,7 +30,7 @@ const Home: FC<Props> = ({ navigation }) => {
               onPress={() => handleOnStorePress(store)}
             />
           ))}
-        </ScreenHorizontalPadding>
+ 
         <Space h20 />
       </ScrollView>
     </SafeAreaView>
