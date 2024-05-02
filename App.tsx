@@ -1,11 +1,11 @@
 import { Ionicons } from "@expo/vector-icons"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { NavigationContainer } from "@react-navigation/native"
+import { createStackNavigator } from "@react-navigation/stack"
 import React from "react"
 import Cart from "./src/screens/Cart"
 import Home from "./src/screens/Home"
 import Store from "./src/screens/Store"
-import { createStackNavigator } from "@react-navigation/stack"
 
 const Tab = createBottomTabNavigator()
 

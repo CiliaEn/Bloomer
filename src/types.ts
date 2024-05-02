@@ -6,24 +6,24 @@
   }; */
 
 export type Order = {
-  store: Store;
-  bouquets: [Bouquet];
-  orderDate: String;
-};
+  store: Store
+  bouquets: [Bouquet]
+  orderDate: string
+}
 
 export type Store = {
-  name: String;
-  deliveryFee: number;
-  deliveryTime: String;
-  image: String;
-  bouquets: Bouquet[];
-  latitude: number;
-  longitude: number;
-  score: String;
-};
+  name: string
+  deliveryFee: number
+  deliveryTime: string
+  image: string
+  bouquets: Bouquet[]
+  latitude: number
+  longitude: number
+  score: string
+}
 
 export type Bouquet = {
-  name: String;
-  price: number;
-  imageUrl: String;
-};
+  name: string
+  price: number
+  imageUrl: string
+}

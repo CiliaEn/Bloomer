@@ -4,6 +4,7 @@ import {
   collection,
   getDocs,
   getFirestore,
+  updateDoc,
 } from "firebase/firestore"
 import { Store } from "../types"
 import { firebaseConfig } from "./firebaseConfig"
@@ -11,6 +12,32 @@ import { firebaseConfig } from "./firebaseConfig"
 const app = initializeApp(firebaseConfig)
 
 const db = getFirestore(app)
+
+// Array of available bouquet image URLs
+const bouquetImageUrls = ["fall.jpeg", "roses.jpeg", "spring.jpeg"];
+
+// Function to pick a random item from an array
+const getRandomItem = (array: any[]) => {
+  return array[Math.floor(Math.random() * array.length)];
+};
+
+const updateBouquetImages = async (): Promise<void> => {
+  try {
+    const querySnapshot = await getDocs(collection(db, "stores"));
+    querySnapshot.forEach(async (doc) => {
+      const storeData = doc.data() as Store;
+      const updatedBouquets = storeData.bouquets.map(bouquet => {
+        // Assigning random bouquet image URL
+        return { ...bouquet, imageUrl: getRandomItem(bouquetImageUrls) };
+      });
+      await updateDoc(doc.ref, { bouquets: updatedBouquets });
+    });
+    console.log("Bouquet images updated successfully.");
+  } catch (error) {
+    console.error("Error updating bouquet images:", error);
+    throw error;
+  }
+};
 
 const fetchStoresData = async (): Promise<Store[]> => {
   const storesData: Store[] = []
@@ -38,4 +65,4 @@ const fetchStoresData = async (): Promise<Store[]> => {
   return storesData
 }
 
-export { app, db, fetchStoresData }
+export { app, db, fetchStoresData, updateBouquetImages }
