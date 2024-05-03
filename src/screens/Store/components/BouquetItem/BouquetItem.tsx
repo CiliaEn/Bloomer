@@ -1,7 +1,12 @@
 import { Ionicons } from "@expo/vector-icons"
 import { FC } from "react"
 import { TouchableOpacity, View } from "react-native"
-import { Heading3, Space } from "../../../../components/common/styled"
+import {
+  FlexRow,
+  Heading2,
+  Heading3,
+  Space
+} from "../../../../components/common/styled"
 import useCart from "../../../../hooks/useCart"
 import { Bouquet } from "../../../../types"
 import * as S from "./styled"
@@ -12,7 +17,7 @@ type Props = {
   amount?: number
 }
 export const BouquetItem: FC<Props> = ({ bouquet, storeName, amount }) => {
-  const { addToCart } = useCart()
+  const { addToCart, items, removeFromCart } = useCart()
   const getBouquetImageUrl = (bouquetImageUrl: string) => {
     if (bouquetImageUrl === "fall.jpeg") {
       return require(`../../../../../assets/fall.jpeg`)
@@ -25,23 +30,44 @@ export const BouquetItem: FC<Props> = ({ bouquet, storeName, amount }) => {
     }
   }
 
-  const heading = amount ? `${bouquet.name} x ${amount}` : bouquet.name
-
   return (
-    <TouchableOpacity onPress={() => addToCart(bouquet, storeName)}>
+    <TouchableOpacity>
       <S.Container spaceBetween>
-        <View>
-          <Space h08 />
-          <Heading3>{heading}</Heading3>
-          <Space h04 />
-          <S.Price>${bouquet.price}</S.Price>
-        </View>
-        <View>
+        <FlexRow>
           <S.Image source={getBouquetImageUrl(bouquet.imageUrl)} />
-          <S.Add>
+          <View>
+            <Space h08 />
+            <Heading3>{bouquet.name}</Heading3>
+            <Space h04 />
+            <S.Price>${bouquet.price}</S.Price>
+          </View>
+        </FlexRow>
+
+        {amount === 0 ? (
+          <S.IconButton onPress={() => addToCart(bouquet, storeName)}>
             <Ionicons name={"add-sharp"} size={16} />
-          </S.Add>
-        </View>
+          </S.IconButton>
+        ) : (
+          <FlexRow>
+            {amount && amount > 1 ? (
+              <S.IconButton onPress={() => removeFromCart(storeName, bouquet)}>
+                <Ionicons name="remove" size={16} />
+              </S.IconButton>
+            ) : (
+              <Ionicons
+                name="trash"
+                size={20}
+                onPress={() => removeFromCart(storeName, bouquet)}
+              />
+            )}
+            <Space w08 />
+            <Heading2>{amount}</Heading2>
+            <Space w08 />
+            <S.IconButton onPress={() => addToCart(bouquet, storeName)}>
+              <Ionicons name={"add-sharp"} size={16} />
+            </S.IconButton>
+          </FlexRow>
+        )}
       </S.Container>
     </TouchableOpacity>
   )
