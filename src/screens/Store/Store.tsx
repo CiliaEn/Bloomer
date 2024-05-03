@@ -51,7 +51,7 @@ const Store: FC<Props> = ({ route }) => {
           <Heading2>Available Bouquets</Heading2>
           <Space h20 />
           {store.bouquets.map((bouquet, index) => (
-            <BouquetItem bouquet={bouquet} key={index} />
+            <BouquetItem storeName={store.name} bouquet={bouquet} key={index} />
           ))}
         </ScreenHorizontalPadding>
       </S.SectionContainer>

@@ -18,8 +18,8 @@ export const Add = styled.View`
   background-color: white;
   border-radius: 50px;
   position: absolute;
-  bottom: 4;
-  right: 4;
+  bottom: 4pxusec;
+  right: 4px;
   height: 30px;
   width: 30px;
   align-items: center;

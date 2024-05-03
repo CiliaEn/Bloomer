@@ -1,11 +1,19 @@
-import { ViewProps } from "react-native"
+import { TextProperties, TextProps, ViewProps } from "react-native"
 import styled from "styled-components/native"
 
 export const ScreenHorizontalPadding = styled.View`
   margin: 0 20px;
 `
 
-export const CustomText = styled.Text``
+type CustomTextProps = {
+  light?: boolean
+  bold?: boolean
+}
+
+export const CustomText = styled.Text<CustomTextProps>`
+  ${(props) => props.light && "color: white;"}
+  ${(props) => props.bold && "font-weight: 700;"}
+`
 
 export const Paragraph = styled(CustomText)`
   font-size: 12px;
@@ -41,7 +49,7 @@ export const FlexRow = styled.View<FlexRowProps & ViewProps>`
   align-items: center;
   ${(props) => props.spaceBetween && "justify-content: space-between;"}
   ${(props) => props.center && "justify-content: center;"}
-    ${(props) => props.start && "justify-content: flex-start;"}
+  ${(props) => props.start && "justify-content: flex-start;"}
 `
 
 function getSpacing(propChar: "w" | "h") {
@@ -90,6 +98,13 @@ type SpaceProps = {
 }
 
 export const Space = styled.View<ViewProps & SpaceProps>`
-  height: ${getSpacing("h")};
-  width: ${getSpacing("w")};
+  height: ${getSpacing("h")}px;
+  width: ${getSpacing("w")}px;
+`
+
+export const MyButton = styled.TouchableOpacity`
+  background-color: purple;
+  padding: 10px;
+  align-self: center;
+  border-radius: 10px;
 `

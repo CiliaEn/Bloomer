@@ -1,15 +1,17 @@
+import { Ionicons } from "@expo/vector-icons"
 import { FC } from "react"
 import { TouchableOpacity, View } from "react-native"
 import { Heading3, Space } from "../../../../components/common/styled"
+import useCart from "../../../../hooks/useCart"
 import { Bouquet } from "../../../../types"
 import * as S from "./styled"
-import { Ionicons } from "@expo/vector-icons"
-import useCart from "../../../../hooks/useCart"
 
 type Props = {
   bouquet: Bouquet
+  storeName: string
+  amount?: number
 }
-export const BouquetItem: FC<Props> = ({ bouquet }) => {
+export const BouquetItem: FC<Props> = ({ bouquet, storeName, amount }) => {
   const { addToCart } = useCart()
   const getBouquetImageUrl = (bouquetImageUrl: string) => {
     if (bouquetImageUrl === "fall.jpeg") {
@@ -22,12 +24,15 @@ export const BouquetItem: FC<Props> = ({ bouquet }) => {
       return require(`../../../../../assets/fall.jpeg`)
     }
   }
+
+  const heading = amount ? `${bouquet.name} x ${amount}` : bouquet.name
+
   return (
-    <TouchableOpacity onPress={() => addToCart(bouquet)}>
+    <TouchableOpacity onPress={() => addToCart(bouquet, storeName)}>
       <S.Container spaceBetween>
         <View>
           <Space h08 />
-          <Heading3>{bouquet.name}</Heading3>
+          <Heading3>{heading}</Heading3>
           <Space h04 />
           <S.Price>${bouquet.price}</S.Price>
         </View>

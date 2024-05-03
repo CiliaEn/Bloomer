@@ -1,11 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useEffect, useState } from "react"
-import { Bouquet } from "../types"
+import { Bouquet, Store } from "../types"
 
 const CART_STORAGE_KEY = "cartItems"
 
 const useCart = () => {
-  const [items, setItems] = useState<Bouquet[]>([])
+  const [items, setItems] = useState<{
+    [key: string]: { bouquet: Bouquet; count: number }[]
+  }>({})
 
   useEffect(() => {
     const loadCartItems = async () => {
@@ -21,9 +23,24 @@ const useCart = () => {
     loadCartItems()
   }, [])
 
-  const addToCart = async (item: Bouquet) => {
+  const addToCart = async (bouquet: Bouquet, store: string) => {
     try {
-      const updatedItems = [...items, item]
+      const updatedItems = { ...items }
+      const key = store
+
+      if (!updatedItems[key]) {
+        updatedItems[key] = [{ bouquet, count: 1 }]
+      } else {
+        const bouquetIndex = updatedItems[key].findIndex(
+          (obj) => obj.bouquet.name === bouquet.name
+        )
+        if (bouquetIndex === -1) {
+          updatedItems[key].push({ bouquet, count: 1 })
+        } else {
+          updatedItems[key][bouquetIndex].count++
+        }
+      }
+
       setItems(updatedItems)
       await AsyncStorage.setItem(CART_STORAGE_KEY, JSON.stringify(updatedItems))
     } catch (error) {
@@ -31,7 +48,41 @@ const useCart = () => {
     }
   }
 
-  return { items, addToCart }
+  const removeFromCart = async (store: string, bouquet: Bouquet) => {
+    try {
+      const updatedItems = { ...items }
+      const key = store
+
+      if (updatedItems[key]) {
+        const bouquetIndex = updatedItems[key].findIndex(
+          (obj) => obj.bouquet.name === bouquet.name
+        )
+        if (bouquetIndex !== -1) {
+          if (updatedItems[key][bouquetIndex].count === 1) {
+            updatedItems[key].splice(bouquetIndex, 1)
+          } else {
+            updatedItems[key][bouquetIndex].count--
+          }
+        }
+      }
+
+      setItems(updatedItems)
+      await AsyncStorage.setItem(CART_STORAGE_KEY, JSON.stringify(updatedItems))
+    } catch (error) {
+      console.error("Error removing item from cart:", error)
+    }
+  }
+
+  const clearCart = async () => {
+    try {
+      await AsyncStorage.removeItem(CART_STORAGE_KEY)
+      setItems({})
+    } catch (error) {
+      console.error("Error clearing cart:", error)
+    }
+  }
+
+  return { items, addToCart, clearCart, removeFromCart }
 }
 
 export default useCart
