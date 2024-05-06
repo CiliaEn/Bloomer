@@ -1,7 +1,7 @@
+import { Ionicons } from "@expo/vector-icons"
 import React from "react"
-import { Button, SafeAreaView, ScrollView } from "react-native"
+import { SafeAreaView, ScrollView } from "react-native"
 import {
-  CustomButton,
   Header,
   Heading1,
   MyButton,
@@ -14,7 +14,7 @@ import { BouquetItem } from "../Store/components/BouquetItem/BouquetItem"
 import * as S from "./styled"
 
 const Cart = () => {
-  const { items, removeFromCart } = useCart()
+  const { items, removeFromCart, deleteOrderFromStore } = useCart()
 
   return (
     <SafeAreaView>
@@ -24,6 +24,9 @@ const Cart = () => {
           <Space h20 />
           {Object.keys(items).map((storeName) => (
             <S.Store key={storeName}>
+              <S.DeleteButton onPress={() => deleteOrderFromStore(storeName)}>
+              <Ionicons name="close" size={24} />
+              </S.DeleteButton>
               <Heading1>{storeName}</Heading1>
               {items[storeName].map((cartItem, index) => (
                 <BouquetItem

@@ -73,6 +73,18 @@ const useCart = () => {
     }
   }
 
+  const deleteOrderFromStore = async (storeName: string) => {
+    try {
+      const updatedItems = { ...items }
+      delete updatedItems[storeName]
+
+      setItems(updatedItems)
+      await AsyncStorage.setItem(CART_STORAGE_KEY, JSON.stringify(updatedItems))
+    } catch (error) {
+      console.error("Error deleting order from store:", error)
+    }
+  }
+
   const clearCart = async () => {
     try {
       await AsyncStorage.removeItem(CART_STORAGE_KEY)
@@ -82,7 +94,7 @@ const useCart = () => {
     }
   }
 
-  return { items, addToCart, clearCart, removeFromCart }
+  return { items, addToCart, clearCart, removeFromCart, deleteOrderFromStore }
 }
 
 export default useCart

@@ -35,7 +35,7 @@ const Home: FC<Props> = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ backgroundColor: "white" }}>
       <S.WhiteBackground>
         <Space h12 />
         {/* Search input */}

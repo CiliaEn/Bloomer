@@ -1,5 +1,5 @@
 import styled from "styled-components/native"
-import { FlexRow, Paragraph } from "../../components/common/styled"
+import { Paragraph } from "../../components/common/styled"
 
 export const HeaderContainer = styled.View`
   align-items: center;
@@ -22,4 +22,13 @@ export const SectionContainer = styled.View`
   background-color: white;
 `
 
-
+export const BackButton = styled.TouchableOpacity`
+  background-color: black;
+  opacity: 0.7;
+  border-radius: 20px;
+  position: absolute;
+  top: 60px;
+  left: 16px;
+  z-index: 1;
+  padding: 10px;
+`

@@ -103,7 +103,7 @@ export const Space = styled.View<ViewProps & SpaceProps>`
 `
 
 export const MyButton = styled.TouchableOpacity`
-  background-color: purple;
+  background-color: #C264FF;
   padding: 10px;
   align-self: center;
   border-radius: 10px;

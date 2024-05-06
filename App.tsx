@@ -13,8 +13,8 @@ const Stack = createStackNavigator()
 
 const HomeStack = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home} />
+    <Stack.Navigator screenOptions={{ headerShown: false}}>
+      <Stack.Screen name="Home" component={Home}  />
       <Stack.Screen name="Store" component={Store} />
     </Stack.Navigator>
   )
@@ -40,7 +40,7 @@ export default function App() {
           headerShown: false,
         })}
       >
-        <Tab.Screen name="Home" component={HomeStack} options={{}}/>
+        <Tab.Screen name="Home" component={HomeStack} />
 
         <Tab.Screen name="Cart" component={Cart} />
       </Tab.Navigator>
