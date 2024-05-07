@@ -1,100 +1,140 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useEffect, useState } from "react"
-import { Bouquet, Store } from "../types"
+import { Order, Store, Bouquet } from "../types"
 
-const CART_STORAGE_KEY = "cartItems"
+const CART_STORAGE_KEY = "cartOrders"
 
 const useCart = () => {
-  const [items, setItems] = useState<{
-    [key: string]: { bouquet: Bouquet; count: number }[]
-  }>({})
+  const [orders, setOrders] = useState<Order[]>([])
 
   useEffect(() => {
-    const loadCartItems = async () => {
+    const loadCartOrders = async () => {
       try {
-        const storedItems = await AsyncStorage.getItem(CART_STORAGE_KEY)
-        if (storedItems !== null) {
-          setItems(JSON.parse(storedItems))
+        const storedOrders = await AsyncStorage.getItem(CART_STORAGE_KEY)
+        if (storedOrders !== null) {
+          setOrders(JSON.parse(storedOrders))
         }
       } catch (error) {
-        console.error("Error loading cart items:", error)
+        console.error("Error loading cart orders:", error)
       }
     }
-    loadCartItems()
+    loadCartOrders()
   }, [])
 
-  const addToCart = async (bouquet: Bouquet, store: string) => {
+  const addToCart = async (store: Store, bouquet: Bouquet) => {
     try {
-      const updatedItems = { ...items }
-      const key = store
+      const existingOrderIndex = orders.findIndex(
+        (order) => order.store.name === store.name
+      )
 
-      if (!updatedItems[key]) {
-        updatedItems[key] = [{ bouquet, count: 1 }]
-      } else {
-        const bouquetIndex = updatedItems[key].findIndex(
-          (obj) => obj.bouquet.name === bouquet.name
+      if (existingOrderIndex !== -1) {
+        const existingOrder = orders[existingOrderIndex]
+        const bouquetIndex = existingOrder.bouquets.findIndex(
+          (orderBouquet) => orderBouquet.bouquet.name === bouquet.name
         )
-        if (bouquetIndex === -1) {
-          updatedItems[key].push({ bouquet, count: 1 })
-        } else {
-          updatedItems[key][bouquetIndex].count++
-        }
-      }
 
-      setItems(updatedItems)
-      await AsyncStorage.setItem(CART_STORAGE_KEY, JSON.stringify(updatedItems))
-    } catch (error) {
-      console.error("Error adding item to cart:", error)
-    }
-  }
-
-  const removeFromCart = async (store: string, bouquet: Bouquet) => {
-    try {
-      const updatedItems = { ...items }
-      const key = store
-
-      if (updatedItems[key]) {
-        const bouquetIndex = updatedItems[key].findIndex(
-          (obj) => obj.bouquet.name === bouquet.name
-        )
         if (bouquetIndex !== -1) {
-          if (updatedItems[key][bouquetIndex].count === 1) {
-            updatedItems[key].splice(bouquetIndex, 1)
-          } else {
-            updatedItems[key][bouquetIndex].count--
-          }
+          const updatedBouquets = [...existingOrder.bouquets]
+          updatedBouquets[bouquetIndex].amount++
+          existingOrder.bouquets = updatedBouquets
+        } else {
+          existingOrder.bouquets.push({ bouquet, amount: 1 })
         }
+
+        const updatedOrders = [...orders]
+        updatedOrders[existingOrderIndex] = existingOrder
+        setOrders(updatedOrders)
+      } else {
+        const newOrder: Order = {
+          store,
+          bouquets: [{ bouquet, amount: 1 }],
+        }
+
+        const updatedOrders = [...orders, newOrder]
+        setOrders(updatedOrders)
       }
 
-      setItems(updatedItems)
-      await AsyncStorage.setItem(CART_STORAGE_KEY, JSON.stringify(updatedItems))
+      await AsyncStorage.setItem(CART_STORAGE_KEY, JSON.stringify(orders))
     } catch (error) {
-      console.error("Error removing item from cart:", error)
+      console.error("Error adding order to cart:", error)
     }
   }
 
-  const deleteOrderFromStore = async (storeName: string) => {
+  const setOrderAsBought = async (index: number, orderDate: string) => {
     try {
-      const updatedItems = { ...items }
-      delete updatedItems[storeName]
-
-      setItems(updatedItems)
-      await AsyncStorage.setItem(CART_STORAGE_KEY, JSON.stringify(updatedItems))
+      const updatedOrders = [...orders]
+      updatedOrders[index].orderDate = orderDate
+      setOrders(updatedOrders)
+      await AsyncStorage.setItem(
+        CART_STORAGE_KEY,
+        JSON.stringify(updatedOrders)
+      )
     } catch (error) {
-      console.error("Error deleting order from store:", error)
+      console.error("Error setting order as bought:", error)
+    }
+  }
+
+  const removeOrderFromCart = async (index: number) => {
+    try {
+      const updatedOrders = [...orders]
+      updatedOrders.splice(index, 1)
+      setOrders(updatedOrders)
+      await AsyncStorage.setItem(
+        CART_STORAGE_KEY,
+        JSON.stringify(updatedOrders)
+      )
+    } catch (error) {
+      console.error("Error removing order from cart:", error)
+    }
+  }
+
+  const removeBouquetFromOrder = async (
+    storeName: string,
+    bouquet: Bouquet
+  ) => {
+    try {
+      const updatedOrders = orders.map((order) => {
+        if (order.store.name === storeName) {
+          const updatedBouquets = order.bouquets.filter(
+            (orderBouquet) => orderBouquet.bouquet.name !== bouquet.name
+          )
+          if (updatedBouquets.length === 0) {
+            return null
+          }
+          return { ...order, bouquets: updatedBouquets }
+        }
+        return order
+      })
+
+      const filteredOrders = updatedOrders.filter(Boolean) as Order[]
+
+      setOrders(filteredOrders)
+      await AsyncStorage.setItem(
+        CART_STORAGE_KEY,
+        JSON.stringify(filteredOrders)
+      )
+    } catch (error) {
+      console.error("Error removing bouquet from order:", error)
     }
   }
 
   const clearCart = async () => {
     try {
       await AsyncStorage.removeItem(CART_STORAGE_KEY)
-      setItems({})
+      setOrders([])
     } catch (error) {
       console.error("Error clearing cart:", error)
     }
   }
 
-  return { items, addToCart, clearCart, removeFromCart, deleteOrderFromStore }
+  return {
+    orders,
+    addToCart,
+    clearCart,
+    removeOrderFromCart,
+    removeBouquetFromOrder,
+    setOrderAsBought,
+  }
 }
 
 export default useCart

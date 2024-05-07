@@ -6,6 +6,7 @@ import React from "react"
 import Cart from "./src/screens/Cart"
 import Home from "./src/screens/Home"
 import Store from "./src/screens/Store"
+import Checkout from "./src/screens/Checkout"
 
 const Tab = createBottomTabNavigator()
 
@@ -13,9 +14,18 @@ const Stack = createStackNavigator()
 
 const HomeStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false}}>
-      <Stack.Screen name="Home" component={Home}  />
-      <Stack.Screen name="Store" component={Store} />
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="HomeScreen" component={Home} />
+      <Stack.Screen name="StoreScreen" component={Store} />
+    </Stack.Navigator>
+  )
+}
+
+const CartStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Cart" component={Cart} />
+      <Stack.Screen name="Checkout" component={Checkout} />
     </Stack.Navigator>
   )
 }
@@ -41,8 +51,7 @@ export default function App() {
         })}
       >
         <Tab.Screen name="Home" component={HomeStack} />
-
-        <Tab.Screen name="Cart" component={Cart} />
+        <Tab.Screen name="Cart" component={CartStack} />
       </Tab.Navigator>
     </NavigationContainer>
   )

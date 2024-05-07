@@ -50,7 +50,7 @@ const Home: FC<Props> = ({ navigation }) => {
       <ScrollView bounces={false}>
         {filteredStores.map((store) => (
           <StoreItem
-            key={store.longitude + store.latitude}
+            key={store.name}
             store={store}
             onPress={() => handleOnStorePress(store)}
           />

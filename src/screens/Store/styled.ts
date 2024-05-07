@@ -25,7 +25,7 @@ export const SectionContainer = styled.View`
 export const BackButton = styled.TouchableOpacity`
   background-color: black;
   opacity: 0.7;
-  border-radius: 20px;
+  border-radius: 30px;
   position: absolute;
   top: 60px;
   left: 16px;

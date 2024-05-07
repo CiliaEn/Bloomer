@@ -5,19 +5,19 @@ import {
   FlexRow,
   Heading2,
   Heading3,
-  Space
+  Space,
 } from "../../../../components/common/styled"
 import useCart from "../../../../hooks/useCart"
-import { Bouquet } from "../../../../types"
+import { Bouquet, Store } from "../../../../types"
 import * as S from "./styled"
 
 type Props = {
   bouquet: Bouquet
-  storeName: string
+  store: Store
   amount?: number
 }
-export const BouquetItem: FC<Props> = ({ bouquet, storeName, amount }) => {
-  const { addToCart, items, removeFromCart } = useCart()
+export const BouquetItem: FC<Props> = ({ bouquet, store, amount }) => {
+  const { addToCart, orders, removeBouquetFromOrder } = useCart()
   const getBouquetImageUrl = (bouquetImageUrl: string) => {
     if (bouquetImageUrl === "fall.jpeg") {
       return require(`../../../../../assets/fall.jpeg`)
@@ -44,26 +44,28 @@ export const BouquetItem: FC<Props> = ({ bouquet, storeName, amount }) => {
         </FlexRow>
 
         {amount === 0 ? (
-          <S.IconButton onPress={() => addToCart(bouquet, storeName)}>
+          <S.IconButton onPress={() => addToCart(store, bouquet)}>
             <Ionicons name={"add-sharp"} size={16} />
           </S.IconButton>
         ) : (
           <FlexRow>
             {amount && amount > 1 ? (
-              <S.IconButton onPress={() => removeFromCart(storeName, bouquet)}>
+              <S.IconButton
+                onPress={() => removeBouquetFromOrder(store.name, bouquet)}
+              >
                 <Ionicons name="remove" size={16} />
               </S.IconButton>
             ) : (
               <Ionicons
                 name="trash"
                 size={20}
-                onPress={() => removeFromCart(storeName, bouquet)}
+                onPress={() => removeBouquetFromOrder(store.name, bouquet)}
               />
             )}
             <Space w08 />
             <Heading2>{amount}</Heading2>
             <Space w08 />
-            <S.IconButton onPress={() => addToCart(bouquet, storeName)}>
+            <S.IconButton onPress={() => addToCart(store, bouquet)}>
               <Ionicons name={"add-sharp"} size={16} />
             </S.IconButton>
           </FlexRow>

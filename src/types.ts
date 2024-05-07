@@ -1,16 +1,3 @@
-/* export type User = {
-    name: String;
-    phoneNumber: String;
-    email: String;
-    orders: Order[];
-  }; */
-
-export type Order = {
-  store: Store
-  bouquets: [Bouquet]
-  orderDate: string
-}
-
 export type Store = {
   name: string
   deliveryFee: number
@@ -26,4 +13,15 @@ export type Bouquet = {
   name: string
   price: number
   imageUrl: string
+}
+
+export type OrderBouquet = {
+  bouquet: Bouquet
+  amount: number
+}
+
+export type Order = {
+  store: Store
+  bouquets: OrderBouquet[]
+  orderDate?: string
 }

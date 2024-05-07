@@ -22,7 +22,7 @@ type Props = {
 
 const Store: FC<Props> = ({ route }) => {
   const store = route.params.store
-  const { items } = useCart()
+  const { orders } = useCart()
   const navigation = useNavigation()
 
   const getStoreImageUrl = () => {
@@ -41,13 +41,13 @@ const Store: FC<Props> = ({ route }) => {
   }
 
   const getBouquetCount = (bouquet: Bouquet) => {
-    const storeItems = items[store.name]
-    if (!storeItems) return 0
+    const order = orders.find((order) => order.store.name === store.name)
+    if (!order) return 0
 
-    const bouquetInCart = storeItems.find(
-      (item) => item.bouquet.name === bouquet.name
+    const bouquetInOrder = order.bouquets.find(
+      (orderBouquet) => orderBouquet.bouquet.name === bouquet.name
     )
-    return bouquetInCart ? bouquetInCart.count : 0
+    return bouquetInOrder ? bouquetInOrder.amount : 0
   }
 
   return (
@@ -70,9 +70,9 @@ const Store: FC<Props> = ({ route }) => {
           <Space h20 />
           {store.bouquets.map((bouquet, index) => (
             <BouquetItem
-              storeName={store.name}
+              store={store}
               bouquet={bouquet}
-              amount={getBouquetCount(bouquet)} // Pass count of bouquets in cart
+              amount={getBouquetCount(bouquet)}
               key={index}
             />
           ))}
