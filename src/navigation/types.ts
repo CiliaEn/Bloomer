@@ -5,7 +5,7 @@ export type RootStackParamList = {
   Home: undefined
   Store: { store: Store }
   Cart: undefined
-  Checkout: { order: Order }
+  Checkout: { order: Order, index: number }
 }
 
 export type RootStackNavigationProp<T extends keyof RootStackParamList> =

@@ -26,9 +26,11 @@ type Props = {
 const Cart: FC<Props> = ({ navigation }) => {
   const { orders, removeOrderFromCart } = useCart()
 
-  const goToCheckout = (order: Order) => {
-    navigation.navigate("Checkout", { order: order })
+  const goToCheckout = (order: Order, index: number) => {
+    navigation.navigate("Checkout", { order: order, index: index })
   }
+
+  const filteredOrders = orders.filter((order) => !order.orderDate)
 
   return (
     <SafeAreaView>
@@ -36,10 +38,10 @@ const Cart: FC<Props> = ({ navigation }) => {
         <ScreenHorizontalPadding>
           <Header>Cart</Header>
           <Space h20 />
-          {orders.length === 0 && (
+          {filteredOrders.length === 0 && (
             <Heading3>You have no items in the cart</Heading3>
           )}
-          {orders.map((order, index) => (
+          {filteredOrders.map((order, index) => (
             <S.Store key={index}>
               <S.DeleteButton onPress={() => removeOrderFromCart(index)}>
                 <Ionicons name="close" size={24} />
@@ -54,7 +56,7 @@ const Cart: FC<Props> = ({ navigation }) => {
                 />
               ))}
               <Space h12 />
-              <MyButton onPress={() => goToCheckout(order)}>
+              <MyButton onPress={() => goToCheckout(order, index)}>
                 <Paragraph light bold>
                   Go to checkout
                 </Paragraph>

@@ -23,5 +23,5 @@ export type OrderBouquet = {
 export type Order = {
   store: Store
   bouquets: OrderBouquet[]
-  orderDate?: string
+  orderDate?: Date
 }

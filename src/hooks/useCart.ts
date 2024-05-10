@@ -60,10 +60,10 @@ const useCart = () => {
     }
   }
 
-  const setOrderAsBought = async (index: number, orderDate: string) => {
+  const setOrderAsBought = async (index: number) => {
     try {
       const updatedOrders = [...orders]
-      updatedOrders[index].orderDate = orderDate
+      updatedOrders[index].orderDate = new Date()
       setOrders(updatedOrders)
       await AsyncStorage.setItem(
         CART_STORAGE_KEY,
