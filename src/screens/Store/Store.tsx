@@ -1,7 +1,7 @@
-import { Ionicons } from "@expo/vector-icons"
 import { RouteProp, useNavigation } from "@react-navigation/native"
 import React, { FC } from "react"
 import { ScrollView } from "react-native"
+import { BackButton } from "../../components/common/BackButton/BackButton"
 import {
   Header,
   Heading2,
@@ -53,9 +53,7 @@ const Store: FC<Props> = ({ route }) => {
   return (
     <ScrollView bounces={false}>
       <S.StoreImage source={getStoreImageUrl()} />
-      <S.BackButton onPress={() => navigation.goBack()}>
-        <Ionicons name="arrow-back" color="white" size={26} />
-      </S.BackButton>
+      <BackButton />
       <S.HeaderContainer>
         <Header>{store.name}</Header>
         <S.DeliveryInfo>

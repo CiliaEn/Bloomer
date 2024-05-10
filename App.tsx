@@ -4,9 +4,9 @@ import { NavigationContainer } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
 import React from "react"
 import Cart from "./src/screens/Cart"
+import Checkout from "./src/screens/Checkout"
 import Home from "./src/screens/Home"
 import Store from "./src/screens/Store"
-import Checkout from "./src/screens/Checkout"
 
 const Tab = createBottomTabNavigator()
 
@@ -15,8 +15,8 @@ const Stack = createStackNavigator()
 const HomeStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="HomeScreen" component={Home} />
-      <Stack.Screen name="StoreScreen" component={Store} />
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Store" component={Store} />
     </Stack.Navigator>
   )
 }

@@ -15,9 +15,15 @@ type Props = {
   bouquet: Bouquet
   store: Store
   amount?: number
+  checkout?: boolean
 }
-export const BouquetItem: FC<Props> = ({ bouquet, store, amount }) => {
-  const { addToCart, orders, removeBouquetFromOrder } = useCart()
+export const BouquetItem: FC<Props> = ({
+  bouquet,
+  store,
+  amount,
+  checkout,
+}) => {
+  const { addToCart, removeBouquetFromOrder } = useCart()
   const getBouquetImageUrl = (bouquetImageUrl: string) => {
     if (bouquetImageUrl === "fall.jpeg") {
       return require(`../../../../../assets/fall.jpeg`)
@@ -30,6 +36,9 @@ export const BouquetItem: FC<Props> = ({ bouquet, store, amount }) => {
     }
   }
 
+  const bouquetPrice =
+    checkout && amount ? bouquet.price * amount : bouquet.price
+
   return (
     <TouchableOpacity>
       <S.Container spaceBetween>
@@ -39,7 +48,7 @@ export const BouquetItem: FC<Props> = ({ bouquet, store, amount }) => {
             <Space h08 />
             <Heading3>{bouquet.name}</Heading3>
             <Space h04 />
-            <S.Price>${bouquet.price}</S.Price>
+            <S.Price>${bouquetPrice}</S.Price>
           </View>
         </FlexRow>
 

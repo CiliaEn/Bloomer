@@ -16,8 +16,8 @@ type Props = {
 
 const Home: FC<Props> = ({ navigation }) => {
   const { stores } = useStores()
-  const [searchQuery, setSearchQuery] = useState<string>("") // State to store search query
-  const [filteredStores, setFilteredStores] = useState<Store[]>(stores) // State to store filtered stores
+  const [searchQuery, setSearchQuery] = useState<string>("")
+  const [filteredStores, setFilteredStores] = useState<Store[]>(stores)
 
   const handleSearchQueryChange = (text: string) => {
     setSearchQuery(text)
@@ -38,7 +38,6 @@ const Home: FC<Props> = ({ navigation }) => {
     <SafeAreaView style={{ backgroundColor: "white" }}>
       <S.WhiteBackground>
         <Space h12 />
-        {/* Search input */}
         <S.StyledTextInput
           placeholder="Search stores..."
           value={searchQuery}

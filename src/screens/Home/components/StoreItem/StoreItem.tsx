@@ -1,7 +1,5 @@
 import { FC } from "react"
-import { Store } from "../../../../types"
-import * as S from "./styled"
-import { Image, Text } from "react-native"
+import { Image } from "react-native"
 import {
   FlexRow,
   Heading1,
@@ -9,7 +7,8 @@ import {
   ScreenHorizontalPadding,
   Space,
 } from "../../../../components/common/styled"
-import useCart from "../../../../hooks/useCart"
+import { Store } from "../../../../types"
+import * as S from "./styled"
 
 type Props = {
   store: Store

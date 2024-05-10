@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useEffect, useState } from "react"
-import { Order, Store, Bouquet } from "../types"
+import { Bouquet, Order, Store } from "../types"
 
 const CART_STORAGE_KEY = "cartOrders"
 

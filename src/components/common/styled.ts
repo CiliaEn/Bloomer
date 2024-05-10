@@ -1,4 +1,4 @@
-import { TextProperties, TextProps, ViewProps } from "react-native"
+import { ViewProps } from "react-native"
 import styled from "styled-components/native"
 
 export const ScreenHorizontalPadding = styled.View`
@@ -103,7 +103,7 @@ export const Space = styled.View<ViewProps & SpaceProps>`
 `
 
 export const MyButton = styled.TouchableOpacity`
-  background-color: #C264FF;
+  background-color: #c264ff;
   padding: 10px;
   align-self: center;
   border-radius: 10px;

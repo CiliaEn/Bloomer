@@ -1,13 +1,7 @@
 import { Ionicons } from "@expo/vector-icons"
-import React, { FC, useState } from "react"
-import {
-  SafeAreaView,
-  ScrollView,
-  Modal,
-  View,
-  Text,
-  TouchableOpacity,
-} from "react-native"
+import { StackNavigationProp } from "@react-navigation/stack"
+import React, { FC } from "react"
+import { SafeAreaView, ScrollView } from "react-native"
 import {
   Header,
   Heading1,
@@ -18,10 +12,10 @@ import {
   Space,
 } from "../../components/common/styled"
 import useCart from "../../hooks/useCart"
+import { RootStackParamList } from "../../navigation/types"
+import { Order } from "../../types"
 import { BouquetItem } from "../Store/components/BouquetItem/BouquetItem"
 import * as S from "./styled"
-import { StackNavigationProp } from "@react-navigation/stack"
-import { RootStackParamList } from "../../navigation/types"
 
 type CartScreenNavigationProp = StackNavigationProp<RootStackParamList, "Cart">
 
@@ -31,14 +25,9 @@ type Props = {
 
 const Cart: FC<Props> = ({ navigation }) => {
   const { orders, removeOrderFromCart } = useCart()
-  const [showCheckoutModal, setShowCheckoutModal] = useState(false)
 
-  const toggleCheckoutModal = () => {
-    setShowCheckoutModal(!showCheckoutModal)
-  }
-
-  const goToCheckout = () => {
-    navigation.navigate("Checkout")
+  const goToCheckout = (order: Order) => {
+    navigation.navigate("Checkout", { order: order })
   }
 
   return (
@@ -65,7 +54,7 @@ const Cart: FC<Props> = ({ navigation }) => {
                 />
               ))}
               <Space h12 />
-              <MyButton onPress={goToCheckout}>
+              <MyButton onPress={() => goToCheckout(order)}>
                 <Paragraph light bold>
                   Go to checkout
                 </Paragraph>
